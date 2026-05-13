@@ -93,6 +93,12 @@ class DriverDashboardActivity : AppCompatActivity() {
         setupMap(isFullMode = false)
         checkLocationPermissions()
         listenForTripInfoChanges()
+
+        // Handle navigation from other screens
+        val targetTab = intent.getIntExtra("TARGET_TAB", -1)
+        if (targetTab != -1) {
+            switchToTab(targetTab)
+        }
     }
 
     private fun initializeViews() {
@@ -231,8 +237,49 @@ class DriverDashboardActivity : AppCompatActivity() {
             showSettingsModal(R.layout.dialog_report_truck_issue)
         }
         findViewById<android.view.View>(R.id.cardRateService).setOnClickListener {
-            android.widget.Toast.makeText(this, "Feedback module coming soon!", android.widget.Toast.LENGTH_SHORT).show()
+            showFeedbackDialog()
         }
+    }
+
+    private fun showFeedbackDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_feedback, null)
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+        activeDialog = alertDialog
+
+        alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val ratingBar = dialogView.findViewById<android.widget.RatingBar>(R.id.ratingBar)
+        val etFeedback = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etFeedback)
+        val btnSubmit = dialogView.findViewById<Button>(R.id.btnSubmitFeedback)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+
+        btnCancel.setOnClickListener { alertDialog.dismiss() }
+
+        btnSubmit.setOnClickListener {
+            val rating = ratingBar.rating
+            val feedbackText = etFeedback.text.toString()
+            val user = sessionManager.getUser()
+
+            val feedbackData = mapOf(
+                "userId" to (user?.userId ?: 0),
+                "userName" to (user?.name ?: "Anonymous"),
+                "role" to "Driver",
+                "rating" to rating,
+                "feedback" to feedbackText,
+                "timestamp" to System.currentTimeMillis()
+            )
+
+            FirebaseDatabase.getInstance(dbUrl).getReference("user_evaluations").push().setValue(feedbackData)
+                .addOnSuccessListener {
+                    android.widget.Toast.makeText(this, "Thank you for your feedback!", android.widget.Toast.LENGTH_SHORT).show()
+                    alertDialog.dismiss()
+                }
+        }
+
+        alertDialog.show()
     }
 
     private fun setupDemoControls() {
@@ -390,8 +437,17 @@ class DriverDashboardActivity : AppCompatActivity() {
     private fun setupNavigation() {
         bottomNav.selectedItemId = R.id.nav_dashboard
         bottomNav.setOnItemSelectedListener { item ->
-            switchToTab(item.itemId)
-            true
+            when (item.itemId) {
+                R.id.nav_issues -> {
+                    startActivity(Intent(this, DriverIssuesActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                else -> {
+                    switchToTab(item.itemId)
+                    true
+                }
+            }
         }
     }
 

@@ -3,11 +3,15 @@
     <item
         android:id="@+id/nav_dashboard"
         android:icon="@drawable/ic_home"
-        android:title="Dashboard" />
+        android:title="Home" />
     <item
         android:id="@+id/nav_map"
         android:icon="@drawable/ic_track"
-        android:title="Map" />
+        android:title="Track" />
+    <item
+        android:id="@+id/nav_issues"
+        android:icon="@drawable/ic_complaints"
+        android:title="Issues" />
     <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/ic_settings"

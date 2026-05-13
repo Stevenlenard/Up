@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/driver_issues_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="#F8F9FA"
+    tools:context=".DriverIssuesActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
-        android:clipChildren="false"
+        android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="16dp">
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:clipChildren="false"
-            android:clipToPadding="false">
+            android:paddingBottom="16dp">
 
             <!-- Header -->
             <RelativeLayout
@@ -29,24 +29,21 @@
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="12dp"
                 android:background="@android:color/white"
-                android:elevation="4dp"
-                android:id="@+id/header_layout">
+                android:elevation="4dp">
 
                 <ImageButton
-                    android:id="@+id/btnBack"
+                    android:id="@+id/btn_back"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_centerVertical="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_back"
-                    android:contentDescription="Back"
-                    android:padding="8dp"
-                    app:tint="@color/black" />
+                    app:tint="#333333" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/btnBack"
+                    android:layout_toEndOf="@id/btn_back"
                     android:layout_marginStart="12dp"
                     android:layout_centerVertical="true"
                     android:orientation="vertical">
@@ -54,19 +51,28 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Driver Issues"
+                        android:text="My Issues"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#1A1A1A" />
 
                     <TextView
-                        android:id="@+id/tvTotalIssues"
+                        android:id="@+id/tv_total_issues"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0 total"
+                        android:text="3 total"
                         android:textSize="12sp"
                         android:textColor="#757575" />
                 </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_save"
+                    app:tint="#666666" />
             </RelativeLayout>
 
             <!-- Summary Cards -->
@@ -75,24 +81,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="24dp"
+                android:paddingVertical="16dp"
                 android:weightSum="3"
-                android:clipChildren="false"
                 android:clipToPadding="false">
 
                 <!-- Pending Card -->
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardPending"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_weight="1"
-                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginHorizontal="4dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    app:cardUseCompatPadding="true"
+                    app:cardElevation="6dp"
                     app:strokeWidth="0dp"
-                    app:cardBackgroundColor="#FFF8E1">
+                    app:cardBackgroundColor="#FFFBEE">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -104,7 +106,7 @@
                             android:src="@drawable/ic_time"
                             app:tint="#F9A825" />
                         <TextView
-                            android:id="@+id/tvPendingCount"
+                            android:id="@+id/tv_pending_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -124,16 +126,14 @@
 
                 <!-- In Progress Card -->
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardInProgress"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_weight="1"
-                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginHorizontal="4dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    app:cardUseCompatPadding="true"
+                    app:cardElevation="6dp"
                     app:strokeWidth="0dp"
-                    app:cardBackgroundColor="#E3F2FD">
+                    app:cardBackgroundColor="#F1F8FE">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -145,7 +145,7 @@
                             android:src="@android:drawable/stat_notify_chat"
                             app:tint="#1E88E5" />
                         <TextView
-                            android:id="@+id/tvInProgressCount"
+                            android:id="@+id/tv_in_progress_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -165,16 +165,14 @@
 
                 <!-- Resolved Card -->
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardResolved"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_weight="1"
-                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginHorizontal="4dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="4dp"
-                    app:cardUseCompatPadding="true"
+                    app:cardElevation="6dp"
                     app:strokeWidth="0dp"
-                    app:cardBackgroundColor="#EDF9F0">
+                    app:cardBackgroundColor="#F1F8F1">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -186,11 +184,11 @@
                             android:src="@drawable/ic_check"
                             app:tint="#43A047" />
                         <TextView
-                            android:id="@+id/tvResolvedCount"
+                            android:id="@+id/tv_resolved_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="0"
+                            android:text="2"
                             android:textSize="24sp"
                             android:textStyle="bold"
                             android:textColor="#43A047" />
@@ -203,42 +201,49 @@
                             android:textColor="#43A047" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
             </LinearLayout>
+
+            <!-- New Issue Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_new_issue"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="+ New Issue"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#00BFA5"
+                app:cornerRadius="12dp"
+                app:elevation="8dp" />
 
             <!-- Issues List Container -->
             <LinearLayout
-                android:id="@+id/issuesContainer"
+                android:id="@+id/issues_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- Dynamically populated -->
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="80dp" />
+                android:paddingHorizontal="16dp" />
 
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="64dp"
-        android:background="@android:color/white"
+        android:background="@color/white"
         app:elevation="32dp"
-        app:menu="@menu/admin_bottom_nav_menu"
-        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/driver_bottom_nav_menu"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"
         app:itemRippleColor="@color/nav_active_bg"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:labelVisibilityMode="labeled" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
