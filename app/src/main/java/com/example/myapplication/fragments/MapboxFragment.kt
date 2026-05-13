@@ -214,8 +214,26 @@ class MapboxFragment : Fragment() {
                                     val pTime = pointSnapshot.child("timestamp").getValue(Long::class.java) ?: 0L
                                     routePoints.add(RoutePoint(Point.fromLngLat(pLng, pLat), pSpeed, pTime))
                                 }
-                                newRoutePoints[truckId] = routePoints
-                                trucks.add(com.example.myapplication.models.TruckLocation(id = 0, driverId = 0, truckId = truckId, latitude = lat, longitude = lng, speed = truckSnapshot.child("speed").getValue(Double::class.java) ?: 0.0, status = "active", isFull = truckSnapshot.child("isFull").getValue(Boolean::class.java) ?: false, plateNumber = null, updatedAt = "", driverName = driverName))
+                                val tripInfo = truckSnapshot.child("trip_info")
+                                val plate = tripInfo.child("plateNumber").getValue(String::class.java)
+                                val start = tripInfo.child("startTime").getValue(String::class.java)
+                                val end = tripInfo.child("estimatedEnd").getValue(String::class.java)
+
+                                trucks.add(com.example.myapplication.models.TruckLocation(
+                                    id = 0, 
+                                    driverId = 0, 
+                                    truckId = truckId, 
+                                    latitude = lat, 
+                                    longitude = lng, 
+                                    speed = truckSnapshot.child("speed").getValue(Double::class.java) ?: 0.0, 
+                                    status = "active", 
+                                    isFull = truckSnapshot.child("isFull").getValue(Boolean::class.java) ?: false, 
+                                    plateNumber = plate, 
+                                    startTime = start,
+                                    estimatedEnd = end,
+                                    updatedAt = "", 
+                                    driverName = driverName
+                                ))
                             } catch (e: Exception) {}
                         }
                         withContext(Dispatchers.Main) { 

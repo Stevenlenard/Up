@@ -12,6 +12,8 @@ data class TruckLocation(
     val status: String, // active, idle, offline
     @SerializedName("is_full") val isFull: Boolean,
     @SerializedName("plate_number") val plateNumber: String?,
+    @SerializedName("start_time") val startTime: String? = null,
+    @SerializedName("estimated_end") val estimatedEnd: String? = null,
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("driver_name") val driverName: String?,
     @SerializedName("route_points") val routePoints: List<PointCoord>? = null
